@@ -1366,7 +1366,13 @@ window.buildDeck=function(THREE,scene){
 {
 const $=s=>document.querySelector(s);
 const view=$('#view');
-const renderer=new THREE.WebGLRenderer({antialias:true});
+let renderer;
+try{renderer=new THREE.WebGLRenderer({antialias:true});}catch(err){renderer=null;}
+if(!renderer){
+  const vid=/github\.io$/.test(location.hostname)?' Você também pode <a href="montagem-deck.mp4">ver o vídeo da montagem</a>.':'';
+  view.innerHTML='<div style="position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;color:var(--mut)"><p style="max-width:40ch;margin:0">Este navegador não conseguiu iniciar a visualização 3D. Tente abrir o link no Chrome ou no Safari atualizados.'+vid+'</p></div>';
+  throw new Error('WebGL indisponível');
+}
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 renderer.outputEncoding=THREE.sRGBEncoding;
