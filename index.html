@@ -35,7 +35,12 @@ button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .scrub{flex:1 1 220px;display:flex;align-items:center;gap:10px}
 input[type=range]{flex:1;accent-color:var(--acc);height:44px}
 .time{font-variant-numeric:tabular-nums;color:var(--mut);font-size:14px;white-space:nowrap}
-.side{display:flex;flex-direction:column;gap:14px}
+.side{position:relative}
+.stepsbox{position:absolute;inset:0;overflow:auto;padding-right:4px;scrollbar-width:thin}
+.info{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:12px;align-items:start}
+.legend .rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px}
+.bar .scrub{order:9;flex:1 1 100%}
+#local{margin-left:auto;background:var(--acc);border-color:var(--acc);color:#fff}#local.on{background:var(--ink);border-color:var(--ink)}
 .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .steps button{width:100%;text-align:left;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;padding:10px 12px;font-weight:400;height:auto}
 .steps .n{font:700 22px/1 "Barlow Condensed",Barlow,system-ui,sans-serif;padding-top:2px}
@@ -48,14 +53,16 @@ input[type=range]{flex:1;accent-color:var(--acc);height:44px}
 .legend input{width:20px;height:20px;accent-color:var(--ink)}
 .sw{width:26px;height:12px;border-radius:2px;flex:none;display:inline-block}
 .legend span.q{margin-left:auto;color:var(--mut);font-variant-numeric:tabular-nums}
-table{border-collapse:collapse;width:100%;max-width:960px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+table{border-collapse:collapse;width:100%;max-width:1400px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left}
 th{font-weight:600;font-size:14px;color:var(--mut)}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 tr.sec td{background:var(--soft);font-weight:600;font-size:14px}
 tfoot td{font-weight:600;border-bottom:0}
-.note{color:var(--mut);font-size:14px;max-width:80ch;margin-top:12px}
+.note{color:var(--mut);font-size:14px;max-width:110ch;margin-top:12px}
 kbd{font:600 13px Barlow,system-ui,sans-serif;border:1px solid var(--line);border-radius:4px;padding:1px 5px;background:var(--panel)}
-@media(max-width:980px){.wrap{grid-template-columns:minmax(0,1fr)}.view{height:58vh}}
+@media(max-width:980px){.wrap{grid-template-columns:minmax(0,1fr)}.view{height:58vh}.stepsbox{position:static;overflow:visible;padding:0}}
+@media(max-width:700px){.info{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:420px){.legend .rows{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 12px;padding-inline-start:8.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--mut)}.stack td:empty{display:none}.stack tr.sec td{padding-inline-start:12px}.stack tr.sec td::before{content:none}.cams{max-width:70%}.hud{font-size:13px}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
@@ -81,12 +88,14 @@ kbd{font:600 13px Barlow,system-ui,sans-serif;border:1px solid var(--line);borde
       <button id="explode" aria-pressed="false">Vista explodida</button>
       <button id="local" aria-pressed="false">Ver no local</button>
     </div>
+    <div class="info">
+      <div class="card" id="now"><h3>Pronto para começar</h3><p>Aperte Reproduzir ou Avançar.</p></div>
+      <div class="card legend" id="legend"></div>
+    </div>
   </section>
 
   <aside class="side">
-    <ol class="steps" id="steps"></ol>
-    <div class="card" id="now"><h3>Pronto para começar</h3><p>Aperte Reproduzir ou Avançar.</p></div>
-    <div class="card legend" id="legend"></div>
+    <div class="stepsbox"><ol class="steps" id="steps"></ol></div>
   </aside>
 </main>
 
@@ -96,7 +105,7 @@ kbd{font:600 13px Barlow,system-ui,sans-serif;border:1px solid var(--line);borde
     <thead><tr><th>Peça</th><th>Acabamento</th><th class="num">Qtd.</th><th>Seção × comprimento</th><th>Sentido</th><th class="num">Metros lineares</th></tr></thead>
     <tbody></tbody><tfoot></tfoot>
   </table>
-  <p class="note">As 28 estacas de 30 × 30 cm entram 2 m no solo, sob as 4 vigas de 13 m: na ponta da frente e embaixo de cada travessa, como no esboço. A base é um quadro fechado: 4 vigas de 13 m distribuídas por igual nos 10 m, e 2 vigas de 10 m fechando as pontas. Nos cantos, as peças de 13 m e de 10 m se sobrepõem 35 cm; na obra, uma delas precisa ser cortada (por exemplo, as de fechamento com 9,30 m entre as vigas de borda). As 6 travessas ficam na parte central com espaçamento igual, as 18 réguas da estrutura têm vão de 43 cm entre elas, e as 185 tábuas do piso de 7 cm cobrem os 13 m praticamente encostadas (folga de cerca de 0,3 mm). O corrimão é uma sugestão visual, com altura de 1,10 m e uma entrada livre de 1,6 m na frente. Medidas e espaçamentos estruturais devem ser conferidos por quem executa a obra. No modo “Ver no local”, o píer (3 × 36 m), a ponta em T (18 × 8 m), o terreno e os acessórios são ilustrativos, montados a partir do esboço, das fotos e das orientações do construtor.</p>
+  <p class="note">As 28 estacas de 30 × 30 cm entram 2 m no solo, sob as 4 vigas de 13 m: na ponta da frente e embaixo de cada travessa, como no esboço. A base é um quadro fechado: 4 vigas de 13 m distribuídas por igual nos 10 m, e 2 vigas de 10 m fechando as pontas. Nos cantos, as peças de 13 m e de 10 m se sobrepõem 35 cm; na obra, uma delas precisa ser cortada (por exemplo, as de fechamento com 9,30 m entre as vigas de borda). As 6 travessas ficam na parte central com espaçamento igual, as 18 réguas da estrutura têm vão de 43 cm entre elas, e as 185 tábuas do piso de 7 cm cobrem os 13 m praticamente encostadas (folga de cerca de 0,3 mm). O corrimão é uma sugestão visual, com altura de 1,10 m e duas entradas de 1,6 m: a da frente leva ao píer e a de trás tem uma rampa de madeira de 2,5 m subindo da grama. Medidas e espaçamentos estruturais devem ser conferidos por quem executa a obra. No modo “Ver no local”, o píer (3 × 36 m), a ponta em T (18 × 8 m), o terreno e os acessórios são ilustrativos, montados a partir do esboço, das fotos e das orientações do construtor.</p>
 </section>
 
 <script>/**
@@ -2179,7 +2188,7 @@ const ALL=[...KEYS,'rail'];
 /* interface */
 $('#steps').innerHTML=steps.map((s,i)=>`<li><button data-step="${i}" style="--c:${CLS[s.key]?.sw||'var(--acc)'}"><span class="n">${i+1}</span><span><strong>${s.passo}</strong><small>${s.desc}</small></span></button></li>`).join('');
 const railN=deck.pieces.filter(p=>p.k==='rail').length;
-$('#legend').innerHTML='<h3>Camadas</h3>'+ALL.map(k=>`<label><input type="checkbox" data-cls="${k}" checked><span class="sw" style="background:${CLS[k].sw}"></span>${CLS[k].pl}<span class="q" id="q-${k}">0/${k==='rail'?railN:CLS[k].n}</span></label>`).join('');
+$('#legend').innerHTML='<h3>Camadas</h3><div class="rows">'+ALL.map(k=>`<label><input type="checkbox" data-cls="${k}" checked><span class="sw" style="background:${CLS[k].sw}"></span>${CLS[k].pl}<span class="q" id="q-${k}">0/${k==='rail'?railN:CLS[k].n}</span></label>`).join('')+'</div>';
 const fmt=(v,d=1)=>v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
 let ml=0;
 const deckRows=deck.ROWS.map(R=>{const C=CLS[R.k];const m=R.n*R.comp;if(R.k!=='stake')ml+=m;
