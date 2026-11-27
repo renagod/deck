@@ -105,7 +105,7 @@ kbd{font:600 13px Barlow,system-ui,sans-serif;border:1px solid var(--line);borde
     <thead><tr><th>Peça</th><th>Acabamento</th><th class="num">Qtd.</th><th>Seção × comprimento</th><th>Sentido</th><th class="num">Metros lineares</th></tr></thead>
     <tbody></tbody><tfoot></tfoot>
   </table>
-  <p class="note">As 28 estacas de 30 × 30 cm entram 2 m no solo, sob as 4 vigas de 13 m: na ponta da frente e embaixo de cada travessa, como no esboço. A base é um quadro fechado: 4 vigas de 13 m distribuídas por igual nos 10 m, e 2 vigas de 10 m fechando as pontas. Nos cantos, as peças de 13 m e de 10 m se sobrepõem 35 cm; na obra, uma delas precisa ser cortada (por exemplo, as de fechamento com 9,30 m entre as vigas de borda). As 6 travessas ficam na parte central com espaçamento igual, as 18 réguas da estrutura têm vão de 43 cm entre elas, e as 185 tábuas do piso de 7 cm cobrem os 13 m praticamente encostadas (folga de cerca de 0,3 mm). O corrimão é uma sugestão visual, com altura de 1,10 m e duas entradas de 1,6 m: a da frente leva ao píer e a de trás tem uma rampa de madeira de 2,5 m subindo da grama. Medidas e espaçamentos estruturais devem ser conferidos por quem executa a obra. No modo “Ver no local”, o píer (3 × 36 m, sem parapeito, para atracar lanchas e jet skis), a ponta em T (18 × 8 m), o terreno e os acessórios são ilustrativos, montados a partir do esboço, das fotos e das orientações do construtor.</p>
+  <p class="note">As 28 estacas de 30 × 30 cm entram 2 m no solo, sob as 4 vigas de 13 m: na ponta da frente e embaixo de cada travessa, como no esboço. A base é um quadro fechado: 4 vigas de 13 m distribuídas por igual nos 10 m, e 2 vigas de 10 m fechando as pontas. Nos cantos, as peças de 13 m e de 10 m se sobrepõem 35 cm; na obra, uma delas precisa ser cortada (por exemplo, as de fechamento com 9,30 m entre as vigas de borda). As 6 travessas ficam na parte central com espaçamento igual, as 18 réguas da estrutura têm vão de 43 cm entre elas, e as 185 tábuas do piso de 7 cm cobrem os 13 m praticamente encostadas (folga de cerca de 0,3 mm). O corrimão é uma sugestão visual, com altura de 1,10 m e duas entradas de 1,6 m: a da frente leva ao píer e a de trás tem uma rampa de madeira de 2,5 m subindo da grama. Medidas e espaçamentos estruturais devem ser conferidos por quem executa a obra. No modo “Ver no local”, o píer (3 × 36 m, sem parapeito, para atracar lanchas e jet skis), a ponta em T (18 × 3 m), o terreno e os acessórios são ilustrativos, montados a partir do esboço, das fotos e das orientações do construtor.</p>
 </section>
 
 <script>/**
@@ -2089,20 +2089,26 @@ window.buildBoats=function(THREE){
     put(gp,loft({n:40,t0:0.015,t1:TB,x:X,smooth:false,sec:t=>[[-(wi(t)-0.03),FL],[wi(t)-0.03,FL]],col:()=>lin(0xd4d1c8)}),VC({roughness:0.9}),0,0,0);
     put(gp,loft({n:24,m:13,t0:TB,t1:1,x:X,sec:t=>{const W=w(t),S=s(t);return [[-W,S],[-W*0.5,S+0.035],[0,S+0.05],[W*0.5,S+0.035],[W,S]]},col:()=>lin(0xf8f8f5)}),VC({roughness:0.45}),0,0,0);
     put(gp,new THREE.PlaneGeometry(2*wi(TB)-0.06,s(TB)-FL),MAT(0xf2f0ea),X(TB),(s(TB)+FL)/2,0,0,Math.PI/2,0);
-    /* estofados: solário na proa, bancos do piloto e sofá de popa */
-    put(gp,RB(1.0,0.12,1.1*w(0.9)*1.5,0.05),vinyl,X(0.9),s(0.9)+0.1,0);
-    [-1,1].forEach(sd=>{put(gp,RB(0.5,0.14,0.5,0.06),vinyl,X(0.43),FL+0.5,sd*0.42);put(gp,RB(0.5,0.4,0.08,0.04),vinyl,X(0.43)-0.27,FL+0.75,sd*0.42,0,0,-0.15);
-      put(gp,new THREE.CylinderGeometry(0.05,0.07,0.43,10),chrome,X(0.43),FL+0.21,sd*0.42)});
-    put(gp,RB(0.55,0.42,2*wi(0.1)-0.12,0.07),vinyl,X(0.1),FL+0.21,0);put(gp,RB(0.5,0.16,2*wi(0.1)-0.16,0.07),vinylDark,X(0.1),FL+0.48,0);
-    put(gp,RB(0.12,0.38,2*wi(0.02)-0.1,0.05),vinyl,X(0.03),FL+0.66,0,0,0,-0.12);
-    /* consoles com painel, volante e para-brisa curvo */
-    [-1,1].forEach(sd=>{const cx=X(0.55);put(gp,RB(0.6,0.55,0.62,0.08),MAT(0xf7f7f4,{roughness:0.35}),cx,FL+0.27,sd*0.47);put(gp,RB(0.36,0.06,0.5,0.03),black,cx+0.05,FL+0.58,sd*0.47,0,0,-0.35)});
-    put(gp,new THREE.TorusGeometry(0.17,0.022,10,28),black,X(0.55)-0.1,FL+0.72,0.47,0,Math.PI/2,0).rotation.x=0.5;
-    const R=1.15,ws=new THREE.CylinderGeometry(R,R*0.9,0.42,40,1,true,Math.PI/2-1.05,2.1);
-    put(gp,ws,glass,X(0.55)-0.62,FL+0.8,0);put(gp,new THREE.TorusGeometry(R*0.9,0.012,6,40,2.1),chrome,X(0.55)-0.62,FL+1.01,0,Math.PI/2,0,Math.PI/2-1.05+Math.PI);
-    /* guarda-mancebo de inox na proa */
-    [-1,1].forEach(sd=>{const pts=[];for(let i=0;i<=8;i++){const t=0.66+i*0.0425;pts.push([X(t),s(t)+0.3,sd*Math.max(0.01,w(t)-0.07)])}tube(gp,pts,0.016,chrome);
-      [0.68,0.8,0.92].forEach(t=>put(gp,new THREE.CylinderGeometry(0.012,0.012,0.3,8),chrome,X(t),s(t)+0.15,sd*(w(t)-0.07)))});
+    /* estofados: solário na proa, bancos do piloto (sobre base apoiada no piso) e sofá de popa */
+    {const sw=2*w(0.9)*0.72;put(gp,RB(0.75,0.1,sw,0.045),vinyl,X(0.885),s(0.885)+0.09,0)}
+    const sx=X(0.42),seatTop=FL+0.52;
+    [-1,1].forEach(sd=>{const z=sd*0.45;
+      put(gp,RB(0.36,seatTop-FL-0.1,0.36,0.05),MAT(0xf2f1ec,{roughness:0.45}),sx,FL+(seatTop-FL-0.1)/2,z);
+      put(gp,RB(0.5,0.12,0.5,0.06),vinyl,sx,seatTop-0.05,z);
+      put(gp,RB(0.1,0.42,0.5,0.05),vinyl,sx-0.22,seatTop+0.19,z,0,0,-0.12)});
+    put(gp,RB(0.55,0.42,2*wi(0.1)-0.12,0.07),vinyl,X(0.1),FL+0.21,0);put(gp,RB(0.5,0.12,2*wi(0.1)-0.16,0.06),vinylDark,X(0.1),FL+0.48,0);
+    put(gp,RB(0.12,0.4,2*wi(0.03)-0.1,0.05),vinyl,X(0.035),FL+0.68,0,0,0,-0.12);
+    /* consoles apoiados no piso, com painel e volante; para-brisa curvo ajustado à largura do casco */
+    const tc=0.56,cx=X(tc),ch=s(tc)-FL;
+    [-1,1].forEach(sd=>{put(gp,RB(0.6,ch,0.6,0.08),MAT(0xf7f7f4,{roughness:0.35}),cx,FL+ch/2,sd*0.5);put(gp,RB(0.34,0.05,0.48,0.02),black,cx+0.04,FL+ch+0.02,sd*0.5,0,0,-0.3)});
+    {const wh=put(gp,new THREE.TorusGeometry(0.16,0.02,10,28),black,cx-0.32,FL+ch+0.08,0.5,0,Math.PI/2,0);wh.rotation.z=0.45}
+    put(gp,new THREE.CylinderGeometry(0.02,0.02,0.3,8),black,cx-0.24,FL+ch-0.02,0.5,0,0,0.9);
+    {const tw=0.6,R=1.25,half=Math.asin(Math.min(0.98,(wi(tw)-0.04)/R)),xc=X(tw)-R*Math.cos(half),yb=s(tw)+0.01,H=0.4;
+     const g1=new THREE.CylinderGeometry(R,R,H,48,1,true,Math.PI/2-half,2*half);put(gp,g1,glass,xc,yb+H/2,0);
+     const fr=new THREE.CylinderGeometry(R+0.006,R+0.006,0.025,48,1,true,Math.PI/2-half,2*half);put(gp,fr,chrome,xc,yb+H,0)}
+    /* guarda-mancebo de inox na proa, apoiado em balaústres */
+    [-1,1].forEach(sd=>{const ts=[0.64,0.7,0.76,0.82,0.88,0.93,0.97,0.995];const pts=ts.map(t=>[X(t),s(t)+0.28,sd*Math.max(0.0,w(t)-0.06)]);tube(gp,pts,0.015,chrome);
+      [0.64,0.74,0.84,0.93].forEach(t=>put(gp,new THREE.CylinderGeometry(0.011,0.011,0.28,8),chrome,X(t),s(t)+0.14,sd*(w(t)-0.06)))});
     /* plataforma de banho e motor de popa */
     put(gp,RB(0.42,0.07,1.6,0.03),teak,X(0)-0.2,0.38,0);
     const ox=X(0)-0.32;put(gp,RB(0.55,0.62,0.44,0.15),MAT(engine,{roughness:0.25,metalness:0.2,envMapIntensity:1.2}),ox,1.02,0);
@@ -2155,8 +2161,8 @@ window.ENV_VIEWS={
   foto:[[-1,1.6,24],[-3,-0.2,-30]],
   aerea:[[40,26,24],[-3,0,-20]],
   topo:[[0,105,-21.5],[0,0,-23]],
-  pier:[[0,1.7,-52.2],[0,1.0,0]],
-  barcos:[[10,3.2,-36],[0,0.3,-44]],
+  pier:[[0,1.7,-47.4],[0,1.0,0]],
+  barcos:[[10,3.4,-34],[0,0.3,-44]],
   rampa:[[6.5,1.5,15],[0,0.2,5]]
 };
 window.buildEnv=function(THREE,scene,renderer){
@@ -2294,7 +2300,7 @@ window.buildEnv=function(THREE,scene,renderer){
   const beamTex=tex(64,512,(c,w,hh)=>{c.fillStyle='#5d3c22';c.fillRect(0,0,w,hh);c.globalAlpha=0.2;c.strokeStyle='#2a170a';for(let k=0;k<20;k++){c.beginPath();const x=rnd()*w;c.moveTo(x,0);c.bezierCurveTo(x+3,hh*.3,x-3,hh*.6,x+rnd()*3,hh);c.stroke()}c.globalAlpha=1},1,6);
   const wood=M(0xffffff,{map:beamTex,roughness:0.8}),post=M(0xffffff,{map:beamTex,roughness:0.9});
 
-  /* ---------- píer: passarela 1,6 m, píer 3 × 36 m e ponta em T 18 × 8 m ---------- */
+  /* ---------- píer: passarela 1,6 m, píer 3 × 36 m e ponta em T 18 × 3 m ---------- */
   function platform(x0,x1,z0,z1,piles=true){const w=x1-x0,l=Math.abs(z1-z0),zc=(z0+z1)/2;
     const t=plankTex.clone();t.needsUpdate=true;t.repeat.set(w/2,l/1.05);
     add(new THREE.BoxGeometry(w,0.06,l),[wood,wood,M(0xffffff,{map:t,roughness:0.62}),wood,wood,wood],(x0+x1)/2,TOP-0.03,zc);
@@ -2303,7 +2309,7 @@ window.buildEnv=function(THREE,scene,renderer){
     if(!piles)return;const nx=Math.max(2,Math.round(w/3)+1),nz=Math.max(2,Math.round(l/3)+1);
     for(let i=0;i<nx;i++)for(let j=0;j<nz;j++){if(i>0&&i<nx-1&&j>0&&j<nz-1&&w<6)continue;
       const x=x0+0.15+i*(w-0.3)/(nx-1),zz=zc-l/2+0.15+j*(l-0.3)/(nz-1);add(new THREE.CylinderGeometry(0.13,0.14,3,12),post,x,TOP-1.6,zz)}}
-  const pz0=-9,pz1=pz0-36,tz1=pz1-8;
+  const pz0=-9,pz1=pz0-36,tz1=pz1-3;
   platform(-0.8,0.8,-6.5,pz0);platform(-1.5,1.5,pz0,pz1);platform(-9,9,pz1,tz1);
   const railMat=M(0xffffff,{map:beamTex,color:L(0xc4703c),roughness:0.7}),cable=M(0xc8ccd0,{metalness:0.9,roughness:0.25});
   function rail(a,b){const dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz),n=Math.max(1,Math.round(len/2));
@@ -2315,7 +2321,7 @@ window.buildEnv=function(THREE,scene,renderer){
   const cleatMat=M(0x2a2a2a,{metalness:0.8,roughness:0.35}),fenderMat=M(0x1d3557,{roughness:0.6});
   const cleat=(x,z,rot)=>{const c=add(new THREE.BoxGeometry(0.28,0.05,0.06),cleatMat,x,TOP+0.07,z);c.rotation.y=rot;add(new THREE.CylinderGeometry(0.03,0.04,0.06,8),cleatMat,x,TOP+0.03,z)};
   for(let z=pz0-3;z>pz1+1;z-=6){cleat(-1.32,z,Math.PI/2);cleat(1.32,z,Math.PI/2)}
-  for(let x=-8;x<=8;x+=4){cleat(x,tz1+0.18,0)}[-8,-4,4,8].forEach(x=>cleat(x,pz1-0.18,0));[-8.82,8.82].forEach(x=>[pz1-2,pz1-6].forEach(z=>cleat(x,z,Math.PI/2)));
+  for(let x=-8;x<=8;x+=4){cleat(x,tz1+0.18,0)}[-8,-4,4,8].forEach(x=>cleat(x,pz1-0.18,0));[-8.82,8.82].forEach(x=>cleat(x,pz1-1.5,Math.PI/2));
   for(let z=pz0-2;z>pz1;z-=4)[-1.56,1.56].forEach(x=>add(new THREE.CylinderGeometry(0.07,0.07,0.32,10),fenderMat,x,TOP-0.24,z));
   const lampMat=M(0x262626,{metalness:0.7,roughness:0.35}),globe=M(0xffffff,{emissive:L(0xfff0d0),emissiveIntensity:0.35,roughness:0.2,transparent:true,opacity:0.92});
   for(let i=0;i<4;i++){const zz=pz0-4-i*10.5;[-1.5,1.5].forEach(x=>{add(new THREE.CylinderGeometry(0.035,0.05,2.6,10),lampMat,x,TOP+1.3,zz);add(new THREE.SphereGeometry(0.15,16,12),globe,x,TOP+2.72,zz)})}
@@ -2389,8 +2395,9 @@ window.buildEnv=function(THREE,scene,renderer){
   /* cabos de amarração */
   const rope=M(0xe8dcc0,{roughness:1});
   const line=(a,b)=>{const v=new THREE.Vector3(b[0]-a[0],b[1]-a[1],b[2]-a[2]);const m=add(new THREE.CylinderGeometry(0.012,0.012,v.length(),5),rope,(a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2,false);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),v.normalize())};
-  line([1.32,TOP+0.08,-15],[2.6,0.55,-16.4]);line([1.32,TOP+0.08,-21],[2.6,0.5,-21.6]);line([-1.32,TOP+0.08,-27],[-2.6,0.55,-28.4]);line([-1.32,TOP+0.08,-33],[-2.6,0.5,-33.6]);
-  line([-8,TOP+0.08,tz1+0.18],[-6.8,0.5,tz1-0.9]);line([0,TOP+0.08,tz1+0.18],[-1.2,0.5,tz1-0.9]);
+  const GY=WATER-0.12+1.0;
+  [-16,-22].forEach(z=>line([1.32,TOP+0.08,z],[1.95,GY,z-0.5]));[-28,-34].forEach(z=>line([-1.32,TOP+0.08,z],[-1.95,GY,z+0.5]));
+  [-8,0].forEach(x=>line([x,TOP+0.08,tz1+0.18],[x+0.6,GY,tz1-0.3]));
   [[-9,0.2],[-12.5,3.5],[9,0.6],[12,5.5],[22,0.4],[33,1.2],[-26,0.4],[-34,4.5],[40,4.5],[-8.5,10.5],[19,13]].forEach(([x,z])=>palm(x,z,6.8+rnd()*2.8,1.4+rnd()*1.2,-Math.PI/2+(rnd()-0.5)*1.3));
   kiosk(18,5.5,0.4);kiosk(31,7,-0.2);kiosk(-37,10,0.9);
   [[15,-0.6,'#c9643a'],[24.5,-0.8,'#2f7a80'],[27.5,-0.3,'#efe9dc'],[-28,-0.2,'#c9643a']].forEach(([x,z,c])=>{umbrella(x,h(x,z),z,c);lounger(x-0.6,h(x,z),z+0.7,Math.PI*0.95);lounger(x+0.6,h(x,z),z+0.7,Math.PI*1.05)});
